@@ -5,7 +5,7 @@ default and is suitable for use in a cryptographically secure blockchain.
 
 ## Installation
 
-```pip install -i https://test.pypi.org/simple/ basicblockchains-ecc```
+```pip install -i https://pypi.org/simple/ basicblockchains-ecc```
 
 ## General Usage
 
