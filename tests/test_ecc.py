@@ -3,7 +3,8 @@ import random
 
 from primefac import isprime
 
-from elliptic_curve import CurveFactory
+from elliptic_curve import CurveFactory, secp256k1, secp192k1, secp224k1, secp192r1, secp224r1, secp256r1, secp384r1, \
+    secp521r1
 
 # ---CONSTANTS---#
 
@@ -83,6 +84,40 @@ def test_factory():
     c7 = factory.create_curve(a=0, b=7, p=43, generator=(1, 1))
     assert c7.generator != (1, 1)
     assert c7.is_point_on_curve(c7.generator)
+
+
+def test_secp_curves():
+    curve_list = [
+        secp192k1(),
+        secp192r1(),
+        secp224k1(),
+        secp224r1(),
+        secp256k1(),
+        secp256r1(),
+        secp384r1(),
+        secp521r1()
+    ]
+
+    for curve in curve_list:
+        assert isprime(curve.p)  # Verify prime
+        assert isprime(curve.order)  # Verify prime ordr
+        gx, gy = curve.generator
+        y = curve.find_y_from_x(gx)
+        if y % 2 != gy % 2:
+            y = curve.p - y
+        assert y == gy  # Verify we recover correct y from given x
+        assert curve.scalar_multiplication(curve.order, curve.generator) is None  # Verify order
+
+        # Check that any random point is a generator
+        random_point = curve.random_point()
+        assert curve.scalar_multiplication(curve.order, random_point) is None
+
+        # Check the additive inverses of a random point
+        p1, p2 = random_point
+        i1, i2 = curve.scalar_multiplication(curve.order - 1, random_point)
+        assert p1 == i1
+        assert curve.p - p2 == i2
+        assert curve.p - i2 == p2
 
 
 # --- HELPER FUNCTIONS --- #
