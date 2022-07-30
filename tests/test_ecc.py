@@ -3,7 +3,7 @@ import random
 
 from primefac import isprime
 
-import elliptic_curve as EC
+from src.basicblockchains_ecc import elliptic_curve as EC
 
 # ---CONSTANTS---#
 

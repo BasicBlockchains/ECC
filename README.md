@@ -5,6 +5,8 @@ default and is suitable for use in a cryptographically secure blockchain.
 
 ## Installation
 
+```pip install -i https://test.pypi.org/simple/ basicblockchains-ecc```
+
 ## General Usage
 
 The EllipticCurve class can be instantiated using coefficients a and b and an odd prime p. As well, we have the
@@ -27,7 +29,7 @@ create a curve without prime order by instantiating the Elliptic Curve directly,
 just be a random point and not actually a generator of the group.
 
 ```python
-from elliptic_curve import CurveFactory, secp256k1
+from src.basicblockchains_ecc.elliptic_curve import CurveFactory, secp256k1
 
 # Set constants - known to generate curve of prime group order
 a = 0
@@ -78,7 +80,7 @@ hashlib package to generate a random hex string. We see that we can generate a v
 
 ```python
 from hashlib import sha256
-from elliptic_curve import secp256k1
+from src.basicblockchains_ecc.elliptic_curve import secp256k1
 from secrets import randbits
 
 # Get secp256k1 directly
@@ -157,10 +159,11 @@ More information about elliptic curves:
 ## Tests
 
 We have 3 tests in the test_ecc.py file in the ./tests folder:
--test_curve_functions:: creates random curve with small prime using factory and verifies properties
--test_factory: we verify that the CurveFactory class fails for all desired fail conditions
--test_secp_curves: for each secp curve, we verify some necessary curve values as well as the order through scalar
-multiplication of a random point
+
+- test_curve_functions: creates random curve with small prime using factory and verifies properties
+- test_factory: we verify that the CurveFactory class fails for all desired fail conditions
+- test_secp_curves: for each secp curve, we verify some necessary curve values as well as the order through scalar
+  multiplication of a random point
 
 ## Packages
 
