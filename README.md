@@ -1,6 +1,7 @@
-# ECC
+# Basic Blockchains ECC
 
-ECC is a Python library for elliptic curve cryptography.
+BasicBlockchains_ECC is a Python library for elliptic curve cryptography. It has all NIST secp curves available by
+default and is suitable for use in a cryptographically secure blockchain.
 
 ## Installation
 
