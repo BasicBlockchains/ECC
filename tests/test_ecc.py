@@ -1,14 +1,13 @@
-'''
-Testing various elements of the elliptic curve
-'''
-'''
-IMPORTS
-'''
+# ---------------#
+#   IMPORTS     #
+# ---------------#
+
 from elliptic_curve import CurveFactory
 
-'''
-CONSTANTS
-'''
+# ---------------#
+#   CONSTANTS   #
+# ---------------#
+
 A = 0
 B = 7
 P = pow(2, 256) - pow(2, 32) - pow(2, 9) - pow(2, 8) - pow(2, 7) - pow(2, 6) - pow(2, 4) - 1
@@ -16,9 +15,10 @@ ORDER = 0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141
 GENERATOR_X = 0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798
 GENERATOR_Y = 0x483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8
 
-'''
-TESTS
-'''
+
+# ---------------#
+#   TESTS        #
+# ---------------#
 
 
 def test_factory():
