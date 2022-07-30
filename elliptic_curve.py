@@ -1,61 +1,18 @@
-'''
-Classes: EllipticCurve, CurveFactory
-
-Elliptic Curve:
-
-    -We instantiate an elliptic curve E of the form y^2 = x^3 + ax + b over the finite field F_p using the values a,
-    b and p.
-
-    -We allow for the option to include the group order and/or a generator point.
-
-    -For small primes p, we can manually calculate the group order. This is unfeasible for large primes,
-    hence the ability to include the order.
-
-    -We require that if the group order is submitted, that it be prime, as this condition is necessary for the ECDSA.
-
-    -For a prime group order, every rational point is a generator. Hence we can include a generator point,
-    or choose a random point to act as generator.
-
-CurveFactory:
-
-    -We use the factory method to generate our EllipticCurve object, as incorrect variables will cause issues.
-
-    -We verify that p is prime and that a,b and p don't yield a singular curve.
-
-    -If the group order is submitted, we verify that the order is prime.
-
-    -If all values are valid, we return an instantiated EllipticCurve object
-
-    NOTE: We cannot verify that the generator is a point on the curve until the object is instantiated. For this
-    reason, we verify the generator when the curve is instantiated and handle any exceptions gracefully.
-
-
-Functions:
-    -We include the ability to retrieve the secp256k1 curve, as used in Bitcoin and Ethereum
-
-
-'''
-
-'''
-IMPORTS
-'''
+# --- IMPORTS --- #
 import secrets
 
 import primefac
 
 from cryptomath import is_quadratic_residue, tonelli_shanks
 
-'''
-CLASSES
-'''
 
+# --- CLASSES --- #
 
 class CurveFactory:
-    '''
-    CONSTANTS
-    '''
+    # --- CONSTANT --- #
     MAX_PRIME = pow(2, 19) - 1  # Mersenne Prime
 
+    # --- FACTORY -- #
     def create_curve(self, a: int, b: int, p: int, order=None, generator=None):
         # Verify prime p
         if not primefac.isprime(p):
@@ -98,9 +55,6 @@ class CurveFactory:
 
 
 class EllipticCurve:
-    '''
-
-    '''
 
     def __init__(self, a: int, b: int, p: int, order=None, generator=None):
         '''
@@ -133,16 +87,12 @@ class EllipticCurve:
         if generator is None:
             self.generator = self.random_point()
 
-    '''
-    RHS
-    '''
+    # --- Right Hand Side --- #
 
     def x_terms(self, x):
         return pow(x, 3) + self.a * x + self.b
 
-    '''
-    Points on Curve
-    '''
+    # --- Points on curve --- #
 
     def random_point(self) -> tuple:
         '''
@@ -204,9 +154,7 @@ class EllipticCurve:
         # Return y
         return y
 
-    '''
-    Group Operations
-    '''
+    # --- Group operations --- #
 
     def add_points(self, point1: tuple, point2: tuple):
         '''
@@ -329,9 +277,7 @@ class EllipticCurve:
                     sum += 2
         return sum
 
-    '''
-    ECDSA
-    '''
+    # --- ECDSA --- #
 
     def generate_signature(self, private_key: int, hex_string: str):
         '''
@@ -430,9 +376,7 @@ class EllipticCurve:
         return r == x % n
 
 
-'''
-CRYPTO CURVES
-'''
+# --- CRYPTO CURVE --- #
 
 
 def secp256k1():
