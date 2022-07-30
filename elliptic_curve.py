@@ -376,6 +376,7 @@ class EllipticCurve:
 
 
 # --- CRYPTO CURVES --- #
+### --- See https://www.secg.org/sec2-v2.pdf for constants --- ###
 
 
 def secp192k1():
