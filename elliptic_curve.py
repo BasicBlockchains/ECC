@@ -1,8 +1,7 @@
 # --- IMPORTS --- #
 import secrets
 
-import primefac
-
+from primefac import isprime
 from cryptomath import is_quadratic_residue, tonelli_shanks
 
 
@@ -10,12 +9,12 @@ from cryptomath import is_quadratic_residue, tonelli_shanks
 
 class CurveFactory:
     # --- CONSTANT --- #
-    MAX_PRIME = pow(2, 19) - 1  # Mersenne Prime
+    MAX_PRIME = pow(2, 19) - 1  # 7th Mersenne Prime
 
     # --- FACTORY -- #
     def create_curve(self, a: int, b: int, p: int, order=None, generator=None):
         # Verify prime p
-        if not primefac.isprime(p):
+        if not isprime(p):
             return None
 
         # Verify curve non-singular
@@ -25,7 +24,7 @@ class CurveFactory:
 
         # If order is given, make sure it's prime
         if order is not None:
-            if not primefac.isprime(order):
+            if not isprime(order):
                 return None
 
         # Verify order given for large prime
@@ -44,7 +43,7 @@ class CurveFactory:
                 curve = EllipticCurve(a=a, b=b, p=p, order=temp_order, generator=generator)
 
             # Return None if order isn't prime
-            if not primefac.isprime(temp_order):
+            if not isprime(temp_order):
                 return None
 
             # Return None if generator not given
@@ -302,7 +301,7 @@ class EllipticCurve:
         n = self.order
 
         # Return None if order not given or order isn't prime
-        if n is None or not primefac.isprime(n):
+        if n is None or not isprime(n):
             return None
 
         # 2) Take the first n bits of the hex string
@@ -353,7 +352,7 @@ class EllipticCurve:
         try:
             assert 1 <= r <= n - 1
             assert 1 <= s <= n - 1
-            assert primefac.isprime(n)
+            assert isprime(n)
         except AssertionError:
             return False
 
