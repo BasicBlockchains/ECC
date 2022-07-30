@@ -19,13 +19,12 @@ generate curves that can be used for ECC and the ECDSA; this is the CurveFactory
 - if p <= MAX_PRIME and the curve is instantiated using incorrect order, the curve will replace it with the
   calculated order
 
+We hard code the MAX_PRIME value to be the 7th Mersenne prime: 2^19 -1. This value is found in the CurveFactory class.
+
 For p <= MAX_PRIME, we cannot verify the generator point until the curve has been created. Hence, the EllipticCurve
 class verifies the generator when the curve is instantiated and handle any exceptions gracefully. It is possible to
 create a curve without prime order by instantiating the Elliptic Curve directly, but in this case the generator will
 just be a random point and not actually a generator of the group.
-
-Finally, we have the option to instantiate the sepc256k1 curve directly using the known coefficients. Similar NIST
-curves can be generated in this manner.
 
 ```python
 from elliptic_curve import CurveFactory, secp256k1
@@ -128,6 +127,33 @@ crypto_curve.verify_signature(signature, hex_string, public_key)
 True
 ```
 
+## Math
+
+Let E(a,b,p) denote the set of [rational points](https://mathworld.wolfram.com/RationalPoint.html) of the curve y^2 =
+x^3 + ax + b over the [finite field](https://en.wikipedia.org/wiki/Finite_field) F_p, for p an odd prime. We assume
+that p > 3 for convenience. From the curve equation, we see that for any x in F_p, a corresponding
+y will exist if and only if x is
+a [quadratic residue modulo p](https://en.wikipedia.org/wiki/Quadratic_residue#Prime_modulus). For this reason, the
+cryptomath file will include various quadratic
+residue functions.
+
+- We use [Euler's criterion](https://en.wikipedia.org/wiki/Euler%27s_criterion) to determine if n is a
+  quadratic residue or non-residue modulo a prime p.
+- We use the [Legendre symbol](https://en.wikipedia.org/wiki/Legendre_symbol) to display whether n
+  is a quadratic residue/non-residue mod p.
+- If n is a quadratic residue mod p, we use the [Tonelli-Shanks](https://en.wikipedia.org/wiki/Tonelli–Shanks_algorithm)
+  algorithm to find a value x such that x^2 = n (mod p).
+
+We let **0** denote the '[point at infinity](https://crypto.stanford.edu/pbc/notes/elliptic/group.html)' which is
+represented by the value ```None``` in the EllipticCurve class. The set E(a,b,p) along with **0** is an abelian
+group G. G will either be cyclic or be the product of two cyclic groups. When the group order is prime, G will be
+cyclic and every element except for **0** will be a generator.
+
+More information about elliptic curves:
+
+- [Wikipedia](https://en.wikipedia.org/wiki/Elliptic_curve)
+- [Wolfram](https://mathworld.wolfram.com/EllipticCurve.html)
+
 ## Tests
 
 We have 3 tests in the test_ecc.py file in the ./tests folder:
@@ -153,4 +179,20 @@ immediately.
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+MIT License
+
+Copyright (c) 2022 Basic Blockchains
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
