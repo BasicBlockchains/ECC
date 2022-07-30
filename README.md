@@ -29,7 +29,7 @@ create a curve without prime order by instantiating the Elliptic Curve directly,
 just be a random point and not actually a generator of the group.
 
 ```python
-from src.basicblockchains_ecc.elliptic_curve import CurveFactory, secp256k1
+from basicblockchains_ecc.elliptic_curve import CurveFactory, secp256k1
 
 # Set constants - known to generate curve of prime group order
 a = 0
@@ -80,7 +80,7 @@ hashlib package to generate a random hex string. We see that we can generate a v
 
 ```python
 from hashlib import sha256
-from src.basicblockchains_ecc.elliptic_curve import secp256k1
+from basicblockchains_ecc.elliptic_curve import secp256k1
 from secrets import randbits
 
 # Get secp256k1 directly
