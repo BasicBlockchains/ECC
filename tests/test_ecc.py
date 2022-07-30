@@ -3,8 +3,7 @@ import random
 
 from primefac import isprime
 
-from elliptic_curve import CurveFactory, secp256k1, secp192k1, secp224k1, secp192r1, secp224r1, secp256r1, secp384r1, \
-    secp521r1
+import elliptic_curve as EC
 
 # ---CONSTANTS---#
 
@@ -29,7 +28,7 @@ def test_curve_functions():
     prime_list = create_odd_prime_list()
 
     # Create curve loop
-    factory = CurveFactory()
+    factory = EC.CurveFactory()
     curve = None
     while curve is None:
         a = random.choice([x for x in range(COEFFICIENT_UPPER_BOUND)])
@@ -53,7 +52,7 @@ def test_factory():
     '''
     We verify that all fail conditions of the CurveFactory will actually fail as expected
     '''
-    factory = CurveFactory()
+    factory = EC.CurveFactory()
 
     # 1 - p is not prime
     c1 = factory.create_curve(a=0, b=7, p=15)
@@ -88,14 +87,14 @@ def test_factory():
 
 def test_secp_curves():
     curve_list = [
-        secp192k1(),
-        secp192r1(),
-        secp224k1(),
-        secp224r1(),
-        secp256k1(),
-        secp256r1(),
-        secp384r1(),
-        secp521r1()
+        EC.secp192k1(),
+        EC.secp192r1(),
+        EC.secp224k1(),
+        EC.secp224r1(),
+        EC.secp256k1(),
+        EC.secp256r1(),
+        EC.secp384r1(),
+        EC.secp521r1()
     ]
 
     for curve in curve_list:
