@@ -98,7 +98,3 @@ def create_odd_prime_list() -> list:
             prime_list.append(x)
         x += 1
     return prime_list
-
-
-def create_coefficient_list() -> list:
-    return [x for x in range(0, COEFFICIENT_UPPER_BOUND)]
