@@ -17,7 +17,7 @@ long_description = (here / "README.md").read_text(encoding="utf-8")
 setup(
 
     name="basicblockchains_ecc",  # Required
-    version="1.3",  # Required
+    version="1.0.1",  # Required
     description="A class for elliptic curve cryptography",  # Optional
     long_description=long_description,  # Optional
     long_description_content_type="text/markdown",  # Optional
