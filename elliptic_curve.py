@@ -1,6 +1,5 @@
 # --- IMPORTS --- #
 import secrets
-
 from primefac import isprime
 from cryptomath import is_quadratic_residue, tonelli_shanks
 
