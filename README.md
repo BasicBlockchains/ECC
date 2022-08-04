@@ -94,8 +94,6 @@ from basicblockchains_ecc import elliptic_curve as EC
 # Get secp256k1 directly
 crypto_curve = EC.secp256k1()
 
-
-
 # Agrees with NIST values
 crypto_curve
 {"a": "0x0", \
@@ -103,7 +101,6 @@ crypto_curve
  "p": "0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f",\
  "order": "0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141",\
  "generator": "0x0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"}
-
 
 # Random hex string
 hex_string = sha256(b'Random string').hexdigest()
@@ -163,12 +160,14 @@ More information about elliptic curves:
 
 ## Tests
 
-We have 3 tests in the test_ecc.py file in the ./tests folder:
+We have 4 tests in the test_ecc.py file in the ./tests folder:
 
 - test_curve_functions: creates random curve with small prime using factory and verifies properties
 - test_factory: we verify that the CurveFactory class fails for all desired fail conditions
 - test_secp_curves: for each secp curve, we verify some necessary curve values as well as the order through scalar
   multiplication of a random point
+- test_point_compression: for each secp curve, we generate a random point, then verify that compressing and 
+  decompressing it yields the same point
 
 ## Packages
 
