@@ -1,6 +1,9 @@
 # --- IMPORTS --- #
+import json
 import secrets
+
 from primefac import isprime
+
 from .cryptomath import is_quadratic_residue, tonelli_shanks
 
 
@@ -85,6 +88,16 @@ class EllipticCurve:
         if generator is None:
             self.generator = self.random_point()
 
+    def __repr__(self):
+        hex_dict = {
+            'a':hex(self.a),
+            'b':hex(self.b),
+            'p': hex(self.p),
+            'order': hex(self.order),
+            'generator': self.compress_point(self.generator)
+        }
+        return json.dumps(hex_dict)
+
     # --- Right Hand Side --- #
 
     def x_terms(self, x):
@@ -94,7 +107,7 @@ class EllipticCurve:
 
     def random_point(self) -> tuple:
         '''
-
+        Returns random point on the curve
         '''
         x = secrets.randbelow(self.p - 1)
         while not self.is_x_on_curve(x):
@@ -108,7 +121,7 @@ class EllipticCurve:
 
     def is_point_on_curve(self, point: tuple) -> bool:
         '''
-
+        Returns true if the given point is on the curve, false otherwise
         '''
         # Point at infinity case first
         if point is None:
@@ -372,6 +385,60 @@ class EllipticCurve:
             return False
         x, y = point
         return r == x % n
+
+
+    # --- Point compression/decompression --- #
+    def compress_point(self, point: tuple):
+        '''
+        Will return x point as hex string with 0x02 or 0x03 prefix depending on parity of y
+        '''
+        #Verify point is on the curve
+        try:
+            assert self.is_point_on_curve(point)
+        except AssertionError:
+            return None
+
+        #Point at infinity can't be compressed
+        if not point:
+            return point
+        
+        x,y = point
+        compressed_point = None
+        if y % 2 == 0:
+            compressed_point = '0x02' + hex(x)[2:]
+        else:
+            compressed_point = '0x03' + hex(x)[2:]
+        return compressed_point
+    
+    def decompress_point(self, hex_string: str):
+        '''
+        We return a point on the curve according to the leading parity bit. We account for the hex string starting with '0x' or not.
+        '''
+        #Get x val and y parity
+        if hex_string[:2] == '0x':
+            parity = int(hex_string[2:4],16)
+            x = int(hex_string[4:],16)
+        else:
+            parity = int(hex_string[:2],16)
+            x = int(hex_string[2:],16)
+
+        #Find candidate y from x
+        temp_y = self.find_y_from_x(x)
+
+        #Choose correct y based on parity
+        if temp_y % 2 == parity % 2:
+            y = temp_y
+        else:
+            y = self.p - temp_y
+
+        #Verify point
+        try:
+            assert self.is_point_on_curve((x,y))
+        except AssertionError:
+            return None
+
+        return (x,y)
+        
 
 
 # --- CRYPTO CURVES --- #

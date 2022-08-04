@@ -13,6 +13,16 @@ ORDER = 0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141  # se
 COEFFICIENT_UPPER_BOUND = 10
 PRIME_UPPER_BOUND = pow(2, 13) - 1  # 5th Mersenne Prime
 
+curve_list = [
+    EC.secp192k1(),
+    EC.secp192r1(),
+    EC.secp224k1(),
+    EC.secp224r1(),
+    EC.secp256k1(),
+    EC.secp256r1(),
+    EC.secp384r1(),
+    EC.secp521r1()
+]
 
 # ---TESTS---#
 
@@ -82,16 +92,7 @@ def test_factory():
 
 
 def test_secp_curves():
-    curve_list = [
-        EC.secp192k1(),
-        EC.secp192r1(),
-        EC.secp224k1(),
-        EC.secp224r1(),
-        EC.secp256k1(),
-        EC.secp256r1(),
-        EC.secp384r1(),
-        EC.secp521r1()
-    ]
+
 
     for curve in curve_list:
         assert isprime(curve.p)  # Verify prime
@@ -113,6 +114,14 @@ def test_secp_curves():
         assert p1 == i1
         assert curve.p - p2 == i2
         assert curve.p - i2 == p2
+
+
+def test_point_compression():
+    for curve in curve_list:
+        random_point = curve.random_point()
+        compressed_point = curve.compress_point(random_point)
+        decompressed_point = curve.decompress_point(compressed_point)
+        assert decompressed_point == random_point
 
 
 # --- HELPER FUNCTIONS --- #

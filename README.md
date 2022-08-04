@@ -3,6 +3,14 @@
 BasicBlockchains_ECC is a Python library for elliptic curve cryptography. It has all NIST secp curves available by
 default and is suitable for use in a cryptographically secure blockchain.
 
+# Updates
+Version 2.1.0 
+  - Added compress_point and decompress_point to EllipticCurve class. Uses 0x02 or 0x03 prefix to indicate parity of y
+  - Added test for new compress/decompress functions. We run through all secp curves, generate a random point and 
+    verify that compression/decompression yields the same random point.
+  - Added __repr__ method to Class for convenience. Will use JSON for representation of class.
+
+
 ## Installation
 
 ```pip install basicblockchains-ecc```
@@ -29,7 +37,7 @@ create a curve without prime order by instantiating the Elliptic Curve directly,
 just be a random point and not actually a generator of the group.
 
 ```python
-from basicblockchains_ecc.elliptic_curve import CurveFactory, secp256k1
+from basicblockchains_ecc import elliptic_curve as EC
 
 # Set constants - known to generate curve of prime group order
 a = 0
@@ -37,7 +45,7 @@ b = 7
 p = 43
 
 # Create factory
-curve_factory = CurveFactory()
+curve_factory = EC.CurveFactory()
 
 # Create curve
 curve = curve_factory.create_curve(a, b, p)
@@ -80,25 +88,22 @@ hashlib package to generate a random hex string. We see that we can generate a v
 
 ```python
 from hashlib import sha256
-from basicblockchains_ecc.elliptic_curve import secp256k1
 from secrets import randbits
+from basicblockchains_ecc import elliptic_curve as EC
 
 # Get secp256k1 directly
-crypto_curve = secp256k1()
+crypto_curve = EC.secp256k1()
+
+
 
 # Agrees with NIST values
-crypto_curve.a
-0
-crypto_curve.b
-7
-hex(crypto_curve.p)
-'0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f'
-hex(crypto_curve.order)
-'0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141'
-gx, gy = crypto_curve.generator
-(hex(gx), hex(gy))
-('0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798',
- '0x483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8')
+crypto_curve
+{"a": "0x0", \
+ "b": "0x7", \
+ "p": "0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f",\
+ "order": "0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141",\
+ "generator": "0x0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"}
+
 
 # Random hex string
 hex_string = sha256(b'Random string').hexdigest()
