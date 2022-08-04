@@ -1,3 +1,34 @@
 [build-system]
 requires = ["setuptools>=43.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "basicblockchains_ecc"
+version = "2.0.0"
+description = "A class for elliptic curve cryptography"
+readme = "README.md"
+authors = [{ name = "Basic Blockchains", email = "basicblockchains@gmail.com" }]
+license = { file = "LICENSE.txt" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Other Audience",
+    "Topic :: Security :: Cryptography",
+]
+keywords = ["cryptography", "elliptic curve", "secp256k1", "crypto"]
+dependencies = [
+    "primefac"
+]
+requires-python = ">=3.10"
+
+
+[project.urls]
+Homepage = "https://github.com/BasicBlockchains/ECC"
+
+

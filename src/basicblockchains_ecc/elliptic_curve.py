@@ -1,7 +1,7 @@
 # --- IMPORTS --- #
 import secrets
 from primefac import isprime
-from src.basicblockchains_ecc.cryptomath import is_quadratic_residue, tonelli_shanks
+from .cryptomath import is_quadratic_residue, tonelli_shanks
 
 
 # --- CLASSES --- #
