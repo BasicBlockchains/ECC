@@ -4,6 +4,11 @@ BasicBlockchains_ECC is a Python library for elliptic curve cryptography. It has
 default and is suitable for use in a cryptographically secure blockchain.
 
 # Updates
+Version 2.2.0
+  - Verified previous versions of python using tox
+  - Package can now be run on python 3.7 and up
+
+
 Version 2.1.0 
   - Added compress_point and decompress_point to EllipticCurve class. Uses 0x02 or 0x03 prefix to indicate parity of y
   - Added test for new compress/decompress functions. We run through all secp curves, generate a random point and 
